@@ -7,33 +7,32 @@
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
 </head>
 <body>
-  <h1>Dive Table Test</h1>
-  <div class="col-md-6" id="input">
+  <div class="container">
+    <h1>Dive Table Test</h1>
 
-    <form class="form-inline">
-      <div class="form-group">
-        <label class="sr-only" for="depthInput">Enter Depth</label>
-        <input type="number" class="form-control" id="depthInput" placeholder="Depth">
-      </div>
-      <div class="form-group">
-        <label class="sr-only" for="timeInput">Password</label>
-        <input type="number" class="form-control" id="timeInput" placeholder="Time">
-      </div>
-      <button type="submit" id="submitButton" class="btn btn-default">Submit</button>
-    </form>
+    <div class="col-md-6" id="input">
+      <form class="form-inline">
+        <div class="form-group">
+          <label class="sr-only" for="depthInput">Enter Depth</label>
+          <input type="number" class="form-control" id="depthInput" placeholder="Depth">
+        </div>
+        <div class="form-group">
+          <label class="sr-only" for="timeInput">Password</label>
+          <input type="number" class="form-control" id="timeInput" placeholder="Time">
+        </div>
+        <button type="submit" id="submitButton" class="btn btn-default">Submit</button>
+      </form>
 
-  </div>
+    </div>
 
-  <div class="col-md-6" id="output">
-
-    <ul class="list">
-    	<li id="depthOutput" class="list-group-item">Depth: </li>
-    	<li id="timeOutput" class="list-group-item">Time: </li>
-    	<li id="diveLetterOutput" class="list-group-item">Dive Letter Group: </li>
-    </ul>
-
-  </div>
-
+    <div class="col-md-6" id="output">
+      <ul class="list">
+        <li id="depthOutput" class="list-group-item">Depth: </li>
+        <li id="timeOutput" class="list-group-item">Time: </li>
+        <li id="diveLetterOutput" class="list-group-item">Dive Letter Group: </li>
+      </ul>
+    </div>
+  </div>  
   <script src="//code.jquery.com/jquery-1.11.2.min.js"></script>
   <script src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
   <script src="dive-table.js"></script>

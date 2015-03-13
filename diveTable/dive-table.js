@@ -17,22 +17,32 @@ var timeAtDepth = [ [5, 15, 25, 30, 40, 50, 70, 80, 100, 110, 130, 150],
 
 
 //Prototype function CANNOT be used to plan real dives.
-function minimumMeterDepth(divetable) {
-  if (divetable.depth < 12) {
-    divetable.depth = 12;
+function minimumMeterDepth(depth){
+  if (depth < 12) {
+    return 12;
+  }
+  else {
+    return depth;
   }
 }
 
 //Prototype function CANNOT be used to plan real dives.
-function minimumFootDepth(divetable) {
-  if (divetable.depth < 40) {
-    divetable.depth = 40;
+function minimumFootDepth(depth) {
+  if (depth < 40) {
+    return 40;
+  }
+  else {
+    return depth;
   }
 }
 
 //Prototype function CANNOT be used to plan real dives.
 function depthRowLookUp(depth) {
+  depth = minimumFootDepth(depth);
   for (var i = 0; i < 10; i++){
+    if (i == depthFeet.length - 1){
+      return i;
+    }
     if (depth >= depthFeet[i] && depth < depthFeet[i + 1]) {
       return i;
     }
@@ -55,8 +65,3 @@ function tableLookUp(depth, time){
   return letterGroup[timeColumn];
 }
 
-
-var newDepth = prompt("Enter Depth");
-var newTime = prompt("Enter Time");
-
-alert(newDepth, newTime);
