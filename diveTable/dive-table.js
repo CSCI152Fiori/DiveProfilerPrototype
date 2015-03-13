@@ -30,7 +30,6 @@ function minimumFootDepth(divetable) {
   }
 }
 
-
 //Prototype function CANNOT be used to plan real dives.
 function depthRowLookUp(depth) {
   for (var i = 0; i < 10; i++){
@@ -56,8 +55,8 @@ function tableLookUp(depth, time){
   return letterGroup[timeColumn];
 }
 
-$('#submitButton').on('click', function() {
-  $('#depthOutput').append($('#depthInput').val());
-});
 
+var newDepth = prompt("Enter Depth");
+var newTime = prompt("Enter Time");
 
+alert(newDepth, newTime);
