@@ -15,6 +15,19 @@ var timeAtDepth = [ [5, 15, 25, 30, 40, 50, 70, 80, 100, 110, 130, 150],
                    [-1, -1,  5,  8, 10, -1, -1, -1,  -1,  25,  -1,  -1]
                   ];
 
+var surfaceIntervalTimes = [[1430, 1239, 1150, 1091, 1045, 1014, 984, 960, 938, 909, 901, 887],
+                            [  -1,  180,  189,  189,  189,  187, 189, 189, 188, 189, 189, 189],
+                            [  -1,   -1,   89,   88,   86,   88,  86,  88,  88,  97,  88,  86],
+                            [  -1,   -1,   -1,   59,   62,   58,  58,  56,  58,  57,  57,  58],
+                            [  -1,   -1,   -1,   -1,   44,   43,  43,  41,  41,  43,  42,  42],
+                            [  -1,   -1,   -1,   -1,   -1,   35,  34,  34,  32,  32,  34,  33],
+                            [  -1,   -1,   -1,   -1,   -1,   -1,  30,  29,  29,  27,  27,  29],
+                            [  -1,   -1,   -1,   -1,   -1,   -1,  -1,  26,  25,  24,  23,  23],
+                            [  -1,   -1,   -1,   -1,   -1,   -1,  -1,  -1,  23,  22,  21,  20],
+                            [  -1,   -1,   -1,   -1,   -1,   -1,  -1,  -1,  -1,  21,  20,  18],
+                            [  -1,   -1,   -1,   -1,   -1,   -1,  -1,  -1,  -1,  -1,  18,  18],
+                            [  -1,   -1,   -1,   -1,   -1,   -1,  -1,  -1,  -1,  -1,  -1,  16]
+                           ]
 
 //Prototype function CANNOT be used to plan real dives.
 function minimumMeterDepth(depth){
@@ -25,7 +38,6 @@ function minimumMeterDepth(depth){
     return depth;
   }
 }
-
 //Prototype function CANNOT be used to plan real dives.
 function minimumFootDepth(depth) {
   if (depth < 40) {
@@ -59,9 +71,19 @@ function timeColumnLookUp(depthRow, time){
 }
 
 //Prototype function CANNOT be used to plan real dives.
-function tableLookUp(depth, time){
+function depthTableLookUp(depth, time){
   var depthRow   = depthRowLookUp(depth);
   var timeColumn = timeColumnLookUp(depthRow, time);
-  return letterGroup[timeColumn];
+  return timeColumn
 }
+
+//Prototype function CANNOT be used to plan real dives.
+function surfaceTableLookUp(diveGroup, surfaceRestLength){
+  for (var i = 0; i < 12; i++){
+    if (surfaceRestLength > surfaceIntervalTimes[i][diveGroup] && surfaceRestLength <= surfaceIntervalTimes[i+1][diveGroup]) {
+      return i;
+    }
+  }
+}
+
 
