@@ -1,4 +1,9 @@
 // Naui dive table
+var DiveTable = function() {
+
+  this.Name = "Naui";
+
+};
 var depthFeet   = [40, 50, 60, 70, 80, 90, 100, 110, 120, 130];
 var depthMeters = [12, 15, 18, 21, 24, 27,  30,  33,  36,  40];
 var letterGroup = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L'];
@@ -27,7 +32,7 @@ var surfaceIntervalTimes = [[1430, 1239, 1150, 1091, 1045, 1014, 984, 960, 938, 
                             [  -1,   -1,   -1,   -1,   -1,   -1,  -1,  -1,  -1,  21,  20,  18],
                             [  -1,   -1,   -1,   -1,   -1,   -1,  -1,  -1,  -1,  -1,  18,  18],
                             [  -1,   -1,   -1,   -1,   -1,   -1,  -1,  -1,  -1,  -1,  -1,  16]
-                           ]
+                           ];
 
 //Prototype function CANNOT be used to plan real dives.
 function minimumMeterDepth(depth){
@@ -52,7 +57,7 @@ function minimumFootDepth(depth) {
 function depthRowLookUp(depth) {
   depth = minimumFootDepth(depth);
   for (var i = 0; i < 10; i++){
-    if (i == depthFeet.length - 1){
+    if (i === depthFeet.length - 1){
       return i;
     }
     if (depth >= depthFeet[i] && depth < depthFeet[i + 1]) {
@@ -74,7 +79,7 @@ function timeColumnLookUp(depthRow, time){
 function depthTableLookUp(depth, time){
   var depthRow   = depthRowLookUp(depth);
   var timeColumn = timeColumnLookUp(depthRow, time);
-  return timeColumn
+  return timeColumn;
 }
 
 //Prototype function CANNOT be used to plan real dives.
