@@ -1,6 +1,5 @@
 // Naui dive table
-var NauiDiveTable = function() {
-
+function NauiDiveTable(){
   this.Name = "Naui";
 
   this.depthFeet   = [40, 50, 60, 70, 80, 90, 100, 110, 120, 130];
@@ -33,65 +32,66 @@ var NauiDiveTable = function() {
                               [  -1,   -1,   -1,   -1,   -1,   -1,  -1,  -1,  -1,  -1,  -1,  16]
                             ];
 
-};
-//Prototype function CANNOT be used to plan real dives.
-NauiDiveTable.prototype.minimumMeterDepth = function(depth) {
-  if (depth < 12) {
-    return 12;
-  }
-  else {
-    return depth;
-  }
 
-};
-
-//Prototype function CANNOT be used to plan real dives.
-NauiDiveTable.prototype.minimumFootDepth = function(depth) {
-  if (depth < 40) {
-    return 40;
-  }
-  else {
-    return depth;
-  }
-};
-
-//Prototype function CANNOT be used to plan real dives.
-NauiDiveTable.prototype.depthRowLookUp = function(depth) {
-  depth = this.minimumFootDepth(depth);
-  for (var i = 0; i < 10; i++){
-    if (i === (this.depthFeet.length - 1)){
-      return i;
+  //Prototype function CANNOT be used to plan real dives.
+  this.minimumMeterDepth = function(depth) {
+    if (depth < 12) {
+      return 12;
     }
-    if (depth >= this.depthFeet[i] && depth < this.depthFeet[i + 1]) {
-      return i;
+    else {
+      return depth;
     }
-  }
-};
+  };
 
-//Prototype function CANNOT be used to plan real dives.
-NauiDiveTable.prototype.timeColumnLookUp = function(depthRow, time){
-  for (var i = 0; i < 12; i++){
-    if (time > this.timeAtDepth[depthRow][i] && time <= this.timeAtDepth[depthRow][i + 1]) {
-      return i+1;
+
+  //Prototype function CANNOT be used to plan real dives.
+  this.minimumFootDepth = function(depth) {
+    if (depth < 40) {
+      return 40;
     }
-  }
-};
-
-//Prototype function CANNOT be used to plan real dives.
-NauiDiveTable.prototype.depthTableLookUp = function(depth, time){
-  var depthRow   = this.depthRowLookUp(depth);
-  var timeColumn = this.timeColumnLookUp(depthRow, time);
-  return timeColumn;
-};
-
-//Prototype function CANNOT be used to plan real dives.
-NauiDiveTable.prototype.surfaceTableLookUp = function(diveGroup, surfaceRestLength){
-  for (var i = 0; i < 12; i++){
-    if (surfaceRestLength > this.surfaceIntervalTimes[i][diveGroup] &&
-        this.surfaceRestLength <= this.surfaceIntervalTimes[i+1][diveGroup]){
-      return i;
+    else {
+      return depth;
     }
-  }
-};
+  };
+
+  //Prototype function CANNOT be used to plan real dives.
+  this.depthRowLookUp = function(depth) {
+    depth = this.minimumFootDepth(depth);
+    for (var i = 0; i < 10; i++){
+      if (i === (this.depthFeet.length - 1)){
+        return i;
+      }
+      if (depth >= this.depthFeet[i] && depth < this.depthFeet[i + 1]) {
+        return i;
+      }
+    }
+  };
+
+  //Prototype function CANNOT be used to plan real dives.
+  this.timeColumnLookUp = function(depthRow, time){
+    for (var i = 0; i < 12; i++){
+      if (time > this.timeAtDepth[depthRow][i] && time <= this.timeAtDepth[depthRow][i + 1]) {
+        return i+1;
+      }
+    }
+  };
+
+  //Prototype function CANNOT be used to plan real dives.
+  this.depthTableLookUp = function(depth, time){
+    var depthRow   = this.depthRowLookUp(depth);
+    var timeColumn = this.timeColumnLookUp(depthRow, time);
+    return timeColumn;
+  };
+
+  //Prototype function CANNOT be used to plan real dives.
+  this.surfaceTableLookUp = function(diveGroup, surfaceRestLength){
+    for (var i = 0; i < 12; i++){
+      if (surfaceRestLength > this.surfaceIntervalTimes[i][diveGroup] &&
+          this.surfaceRestLength <= this.surfaceIntervalTimes[i+1][diveGroup]){
+        return i;
+      }
+    }
+  };
+}
 
 
