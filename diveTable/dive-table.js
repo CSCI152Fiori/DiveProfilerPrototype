@@ -68,7 +68,8 @@ function NauiDiveTable(){
   };
 
   //Prototype function CANNOT be used to plan real dives.
-  this.timeColumnLookUp = function(depthRow, time){
+  this.timeColumnLookUp = function(depthRow, time, residualTime){
+    time += residualTime;
     for (var i = 0; i < 12; i++){
       if (time > this.timeAtDepth[depthRow][i] && time <= this.timeAtDepth[depthRow][i + 1]) {
         return i+1;
@@ -77,9 +78,9 @@ function NauiDiveTable(){
   };
 
   //Prototype function CANNOT be used to plan real dives.
-  this.depthTableLookUp = function(depth, time){
+  this.diveTableLookUp = function(depth, time, residualTime){
     var depthRow   = this.depthRowLookUp(depth);
-    var timeColumn = this.timeColumnLookUp(depthRow, time);
+    var timeColumn = this.timeColumnLookUp(depthRow, time, residualTime);
     return timeColumn;
   };
 
@@ -88,7 +89,7 @@ function NauiDiveTable(){
     for (var i = 0; i < 12; i++){
       if (surfaceRestLength > this.surfaceIntervalTimes[i][diveGroup] &&
           this.surfaceRestLength <= this.surfaceIntervalTimes[i+1][diveGroup]){
-        return i;
+          return i;
       }
     }
   };
