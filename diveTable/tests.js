@@ -20,7 +20,7 @@ QUnit.test('Depth Row Look Up', function(assert) {
 });
 
 QUnit.test('timeColumnLookUp', function(assert){
-  assert.strictEqual(this.d.timeColumnLookUp(2, 45, 0), 7,  'Minimum Depth');
+  assert.strictEqual(this.d.timeColumnLookUp(2, 45, 0), 7);
 });
 
 /* Dive Steps
