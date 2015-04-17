@@ -39,3 +39,14 @@ QUnit.test('timeColumnLookUp', function(assert){
 
 */
 
+QUnit.module("Diver Tests", {
+  beforeEach: function(){
+    this.dt = new NauiDiveTable();
+    this.diver = new Diver(this.dt);
+  }
+});
+
+QUnit.test('', function(assert) {
+  this.diver.dive(50, 25);
+  assert.ok( this.diver.currentGroup === "D", "Correct Group!" );
+});
