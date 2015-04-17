@@ -98,15 +98,16 @@ function NauiDiveTable(){
 function Diver(diveTable){
   this.letterGroup = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L'];
 
-  this.diveTable = diveTable;
-  this.currentGroup = 'A';
+  this.diveTable            = diveTable;
+  this.currentGroupIndex    = 0;
+  this.currentGroup         = 'A';
   this.residualNitrogenTime = 0;
-  this.actualDiveTime = 0;
-  this.totalDiveTime  = 0;
+  this.actualDiveTime       = 0;
+  this.totalDiveTime        = 0;
 
   this.dive = function(depth, time){
     this.actualDiveTime += time;
-    var groupIndex = this.diveTable.diveTableLookUp(depth, time, this.residualNitrogenTime); 
-    this.currentGroup = this.letterGroup[groupIndex];
+    this.currentGroupIndex = this.diveTable.diveTableLookUp(depth, time, this.residualNitrogenTime);
+    this.currentGroup = this.letterGroup[this.currentGroupIndex];
   };
 }
