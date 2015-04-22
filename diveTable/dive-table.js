@@ -5,7 +5,7 @@ function NauiDiveTable(){
   this.depthFeet   = [40, 50, 60, 70, 80, 90, 100, 110, 120, 130];
   this.depthMeters = [12, 15, 18, 21, 24, 27,  30,  33,  36,  40];
   this.letterGroup = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L'];
-  this.maxDepth    = [ 130, 80, 55, 45, 35, 25, 22, 15, 12, 8];
+  this.maxDiveTime    = [ 130, 80, 55, 45, 35, 25, 22, 15, 12, 8];
 
   this.timeAtDepth = [ [ 5, 15, 25, 30, 40, 50, 70, 80, 100, 110, 130, 150],
                        [-1, 10, 15, 25, 30, 40, 50, 60,  70,  80,  -1, 100],
@@ -114,11 +114,17 @@ function Diver(diveTable){
   this.currentGroupIndex    = -1;
   this.currentGroup         = '0';
   this.residualNitrogenTime = 0;
-  this.maxDiveTime = 150;
+  this.maxDiveTime          = 150;
+
+  this.maxDiveTime    = [ 130, 80, 55, 45, 35, 25, 22, 15, 12, 8];
 
   //Prototype function CANNOT be used to plan real dives.
   this.dive = function(depth, time){
-    this.actualDiveTime += time;
+    var tempGroupIndex = this.diveTable.depthRowLookUp(depth);
+    if (time + this.residualNitrogenTime > this.diveTable.maxDiveTime[tempGroupIndex]){
+      throw false;
+    }
+
     this.currentGroupIndex = this.diveTable.diveTableLookUp(depth, time, this.residualNitrogenTime);
     this.currentGroup = this.letterGroup[this.currentGroupIndex];
   };
