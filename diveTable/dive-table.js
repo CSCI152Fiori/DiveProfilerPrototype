@@ -5,6 +5,7 @@ function NauiDiveTable(){
   this.depthFeet   = [40, 50, 60, 70, 80, 90, 100, 110, 120, 130];
   this.depthMeters = [12, 15, 18, 21, 24, 27,  30,  33,  36,  40];
   this.letterGroup = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L'];
+  this.maxDepth    = [ 130, 80, 55, 45, 35, 25, 22, 15, 12, 8];
 
   this.timeAtDepth = [ [ 5, 15, 25, 30, 40, 50, 70, 80, 100, 110, 130, 150],
                        [-1, 10, 15, 25, 30, 40, 50, 60,  70,  80,  -1, 100],
@@ -56,7 +57,6 @@ function NauiDiveTable(){
     }
   };
 
-
   //Prototype function CANNOT be used to plan real dives.
   this.minimumFootDepth = function(depth) {
     if (depth < 40) {
@@ -74,7 +74,7 @@ function NauiDiveTable(){
       if (i === (this.depthFeet.length - 1)){
         return i;
       }
-      if (depth >= this.depthFeet[i] && depth < this.depthFeet[i + 1]) {
+      if (depth < this.depthFeet[i + 1]) {
         return i;
       }
     }
@@ -84,7 +84,7 @@ function NauiDiveTable(){
   this.timeColumnLookUp = function(depthRow, time, residualTime){
     time += residualTime;
     for (var i = 0; i < 12; i++){
-      if (time > this.timeAtDepth[depthRow][i] && time <= this.timeAtDepth[depthRow][i + 1]) {
+      if (time <= this.timeAtDepth[depthRow][i + 1]) {
         return i+1;
       }
     }
@@ -111,18 +111,19 @@ function Diver(diveTable){
   this.letterGroup = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L'];
 
   this.diveTable            = diveTable;
-  this.currentGroupIndex    = 0;
+  this.currentGroupIndex    = -1;
   this.currentGroup         = '0';
   this.residualNitrogenTime = 0;
-  this.actualDiveTime       = 0;
-  this.totalDiveTime        = 0;
+  this.maxDiveTime = 150;
 
+  //Prototype function CANNOT be used to plan real dives.
   this.dive = function(depth, time){
     this.actualDiveTime += time;
     this.currentGroupIndex = this.diveTable.diveTableLookUp(depth, time, this.residualNitrogenTime);
     this.currentGroup = this.letterGroup[this.currentGroupIndex];
   };
 
+  //Prototype function CANNOT be used to plan real dives.
   this.surface = function(time){
     this.currentGroupIndex = this.diveTable.surfaceTableLookUp(this.currentGroupIndex, time);
     this.currentGroup = this.letterGroup[this.currentGroupIndex];
