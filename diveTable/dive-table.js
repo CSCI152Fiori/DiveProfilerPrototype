@@ -87,8 +87,7 @@ function NauiDiveTable(){
   //Prototype function CANNOT be used to plan real dives.
   this.surfaceTableLookUp = function(diveGroup, surfaceRestLength){
     for (var i = 0; i < 12; i++){
-      if (surfaceRestLength > this.surfaceIntervalTimes[i][diveGroup] &&
-          this.surfaceRestLength <= this.surfaceIntervalTimes[i+1][diveGroup]){
+      if (surfaceRestLength >= this.surfaceIntervalTimes[i+1][diveGroup]){
           return i;
       }
     }
@@ -100,7 +99,7 @@ function Diver(diveTable){
 
   this.diveTable            = diveTable;
   this.currentGroupIndex    = 0;
-  this.currentGroup         = 'A';
+  this.currentGroup         = '0';
   this.residualNitrogenTime = 0;
   this.actualDiveTime       = 0;
   this.totalDiveTime        = 0;
@@ -108,6 +107,11 @@ function Diver(diveTable){
   this.dive = function(depth, time){
     this.actualDiveTime += time;
     this.currentGroupIndex = this.diveTable.diveTableLookUp(depth, time, this.residualNitrogenTime);
+    this.currentGroup = this.letterGroup[this.currentGroupIndex];
+  };
+
+  this.surface = function(time){
+    this.currentGroupIndex = this.diveTable.surfaceTableLookUp(this.currentGroupIndex, time);
     this.currentGroup = this.letterGroup[this.currentGroupIndex];
   };
 }
