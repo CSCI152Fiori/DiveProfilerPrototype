@@ -71,5 +71,6 @@ QUnit.test('Dive and Surface', function(assert) {
   this.diver.dive(35, 60);
   this.diver.surface(this.diver.currentGroupIndex, 30);
   assert.ok( this.diver.currentGroup === "G", "Correct Group!" );
+});
 
 
