@@ -131,3 +131,16 @@ App.IndexController = Ember.ObjectController.extend({
         alert("now we can submit the model:" + this.get("model"));
     }
 });
+
+//Put minimum depths into the UI
+//Dive Table Object currently stores useful charts, gets letter index from table when a dive is made
+//Combines index w/ time out of water to get residual nitrogen time
+//residual nitrogen time is used on future dives
+//residual nitrogen time should start at 0 and increase or decrease dependent on diving activities
+//additionally, if dive is over X depth, needs to contain a 15 foot time
+//needs to pull this information from that one table in the bottom left of the NAUI thingy
+//Overlord function to create Dive Table, send in functions and return data and put it on the d3 chart thingy
+//Overlord should probably hold the actual array of arrays, RNT, Total Dive Time, and maybe some other crap I'm not thinking of.
+//Maximum depth doesn't need to change, because the red number on that table is just the blue number plus the old number
+
+

@@ -1,0 +1,19 @@
+	body {
+	background-color: #ddddff;
+	}
+	#splash {
+	text-align : center;
+	}
+	#leftmenu {
+	width : 30%;
+	text-align:left;
+	vertical-align:top;
+	display : inline-block;
+	}
+	#warning {
+	text-align : center;
+	}
+	#map {
+	width : 60%;
+	display : inline-block;
+	}
