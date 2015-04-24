@@ -11,6 +11,13 @@ var App = Ember.Application.extend({
   Resolver: Resolver
 });
 
+App.Profiler = Ember.Object.extend({
+var data = [[0,0]];
+
+
+
+});
+
 loadInitializers(App, config.modulePrefix);
 
 export default App;
