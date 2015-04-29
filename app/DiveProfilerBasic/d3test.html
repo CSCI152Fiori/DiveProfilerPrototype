@@ -3,178 +3,50 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>DiveProfilerPrototype</title>
     <meta name="description" content="">
-    <meta name="viewport" content="width=device-width, initial-scale=1">	
-
-    <link rel="stylesheet" href="assets/vendor.css">
-    <link rel="stylesheet" href="assets/dive-profiler-prototype.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>	
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap-theme.min.css">
-	<script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
-	<link rel="stylesheet" href="styles/app.css">
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
-   
-   <script>
-
-	$(document).ready(function () {
-	$("#outwater").hide();
-	InitChart();
-	});	
-	var data = [[0,0]];			
-	//[time, depth]
-	//safe ascent rate will be 30 feet per minute
-	function adddive() {
-	var dep = parseInt($("#Depth").val(), 10);
-	var last = data[data.length-1];
-	var time = parseInt($("#Time").val(), 10);
-	var todepth = dep - last[1];
-	todepth = Math.abs(todepth);
-	var totime = last[0] + (todepth/30);
-	data.push([totime,dep]);
-	time = totime+time;
-	data.push([time, dep]);
-	totime=time+(todepth/30);
-	data.push([totime, 0 ]);
-	InitChart();
-	$("#Depth").val("");
-	$("#Time").val("");
-	$("#inwater").hide();
-	$("#outwater").show();
-	}
-	
-	function addrest() {
-	var time = parseInt($("#Land").val(), 10);	
-	var last = data[data.length-1];
-	time = last[0] + time;
-	data.push([ time, 0]);
-	$("#Land").val("");
-	$("#inwater").show();
-	$("#outwater").hide();	
-	InitChart();
-	}
-   
-   </script>
-   
-   
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+    <link rel="stylesheet" href="styles/app.css">
+    <title>Fiori Dive Profiler Prototype</title>
   </head>
   <body>
-<div id="main">
-	<div id="warning"><h1>Dive Profiler Prototype</h1></div>
-	<div id="belowtop">
-		<div id="leftmenu">
-				<div class="form-group">
-					<Label for="Depth">Depth</Label>
-						<input type="text" class="form-control" id="Depth" placeholder="Enter a Depth(feet)"/>
-				</div>
-				<div class="form-group">
-					<Label for="Time">Time</Label>
-						<input type="text" class="form-control" id="Time" placeholder="Enter time at depth(minutes)"/>
-				</div>
-				<button type="button" class="btn btn-default" onclick="adddive()">Submit</button>
-			
-			<form id="outwater">
-				<div class="form-group">
-					<Label for="Land">Time on Land</Label>
-						<input type="text" class="form-control" id="Land" placeholder="Enter time out of water"/>
-				</div>
-				<button type="button" class="btn btn-default" onclick="addrest()">Submit</button>
-			</form>
-		</div>
-		<div id="map">
-			<svg id="visualisation" width="700" height="400"></svg>
-        <script>
-			
-			
-            function InitChart() {
-				d3.selectAll("svg > *").remove()
-				var tempColor;
-				var tooltip = d3.select('body').append('div')
-					.attr('class','tooltip')
-					.style('position', 'absolute')
-					.style('background', 'white')
-					.style('opacity', 0);
-			
-				var vis = d3.select("#visualisation"),
-                    WIDTH = 700,
-                    HEIGHT = 400,
-                    MARGINS = {
-                        top: 20,
-                        right: 20,
-                        bottom: 20,
-                        left: 50
-                    },
-                    xScale = d3.scale.linear().range([MARGINS.left, WIDTH - MARGINS.right]).domain([0, 180]),
-                    yScale = d3.scale.linear().range([HEIGHT - MARGINS.top, MARGINS.bottom]).domain([150, 0]),
-                    xAxis = d3.svg.axis()
-                    .scale(xScale),
-                    yAxis = d3.svg.axis()
-                    .scale(yScale)
-                    .orient("left");
-                 
-                vis.append("svg:g")
-                    .attr("class", "x axis")
-                    .attr("transform", "translate(0," + (HEIGHT - MARGINS.bottom) + ")")
-                    .call(xAxis);
-                vis.append("svg:g")
-                    .attr("class", "y axis")
-                    .attr("transform", "translate(" + (MARGINS.left) + ",0)")
-                    .call(yAxis);
-                var lineGen = d3.svg.line()
-                    .x(function(d) {
-                        return xScale(d[0]);
-                    })
-                    .y(function(d) {
-                        return yScale(d[1]);
-                    })
-                vis.append('svg:path')
-                    .attr('d', lineGen(data))
-                    .attr('stroke', 'green')
-                    .attr('stroke-width', 2)
-                    .attr('fill', 'none');
-					
-				var xValue = function(d) { return d[0];},					
-					xMap = function(d) { return xScale(xValue(d));};
-				var yValue = function(d) { return d[1];},					
-					yMap = function(d) { return yScale(yValue(d));};
-					
-				 vis.selectAll(".dot")
-					  .data(data)
-					.enter().append("circle")
-					  .attr("class", "dot")
-					  .attr("r", 4)
-					  .attr("cx", xMap)
-					  .attr("cy", yMap)
-					  .style("fill", "yellow") 
-					  .on("mouseover", function(d) {
-						  tooltip.transition()
-							   .duration(200)
-							   .style("opacity", .9);
-							   					  
-						  tooltip.html(d[0] + "<br/> (" + xValue(d) 
-							+ ", " + yValue(d) + ")")
-							   .style("left", (d3.event.pageX + 5) + "px")
-							   .style("top", (d3.event.pageY - 28) + "px");
-							   //Insert all variables
-							   
-					  })
-					  .on("mouseout", function(d) {
-						  tooltip.transition()
-							   .duration(500)
-							   .style("opacity", 0);
-					  });
+    <div id="main" class="container">
+      <div id="warning"><h1>Dive Profiler Prototype</h1></div>
+      <div id="belowtop" class="row">
+        <div id="map" class="col-md-8 col-sm-10 col-md-push-4">
+         <svg id="visualisation" class="img-responsive" width="700" height="400"></svg>
+        </div>
 
-					
-            }
-            InitChart();
-        </script>				
-		</div>
-	</div>
-	<div id="info">
-	</div>
-</div>		
+        <div id="leftmenu" class="col-md-4 col-sm-4 col-md-pull-8">
+          <div class="form-group">
+            <Label for="Depth">Depth</Label>
+            <input type="text" class="form-control" id="Depth" placeholder="Enter a Depth(feet)"/>
+          </div>
+          <div class="form-group">
+            <Label for="Time">Time</Label>
+            <input type="text" class="form-control" id="Time" placeholder="Enter time at depth(minutes)"/>
+          </div>
+          <button type="button" class="btn btn-default" onclick="adddive()">Submit</button>
 
+          <form id="outwater">
+            <div class="form-group">
+              <Label for="Land">Time on Land</Label>
+              <input type="text" class="form-control" id="Land" placeholder="Enter time out of water"/>
+            </div>
+            <button type="button" class="btn btn-default" onclick="addrest()">Submit</button>
+          </form>
+        </div>
+
+      </div>
+      <div id="info">
+      </div>
+    </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+    <script src="uijquery.js"></script>
+    <script src="d3DiveTable.js"></script>
   </body>
-  
+
 </html>
