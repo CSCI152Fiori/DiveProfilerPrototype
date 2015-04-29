@@ -1,4 +1,3 @@
-
 function InitChart() {
   d3.selectAll("svg > *").remove()
   var tempColor;
@@ -80,4 +79,3 @@ function InitChart() {
 
 }
 InitChart();
-
