@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>DiveProfilerPrototype</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">	
+
+    <link rel="stylesheet" href="assets/vendor.css">
+    <link rel="stylesheet" href="assets/dive-profiler-prototype.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>	
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap-theme.min.css">
+	<script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+	<link rel="stylesheet" href="app.css">
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+    <script src="uijquery.js"></script>   
+   
+  </head>
+  <body>
+<div id="splash">
+</div>
+<div id="main">
+	<div id="warning"><h1>Dive Profiler Prototype</h1></div>
+	<div id="belowtop">
+		<div id="leftmenu">
+				<div class="form-group">
+					<Label for="Depth">Depth</Label>
+						<input type="text" class="form-control" id="Depth" placeholder="Enter a Depth(feet)"/>
+				</div>
+				<div class="form-group">
+					<Label for="Time">Time</Label>
+						<input type="text" class="form-control" id="Time" placeholder="Enter time at depth(minutes)"/>
+				</div>
+				<button type="button" class="btn btn-default" onclick="adddive()">Submit</button>
+			
+			<form id="outwater">
+				<div class="form-group">
+					<Label for="Land">Time on Land</Label>
+						<input type="text" class="form-control" id="Land" placeholder="Enter time out of water"/>
+				</div>
+				<button type="button" class="btn btn-default" onclick="addrest()">Submit</button>
+			</form>
+		</div>
+		<div id="map">
+			<svg id="visualisation" width="700" height="400"></svg>
+        <script src="d3graph.js">
+        </script>				
+		</div>
+	</div>
+	<div id="info">
+	</div>
+</div>		
+
+  </body>
+  
+</html>
