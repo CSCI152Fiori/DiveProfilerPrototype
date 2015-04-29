@@ -11,30 +11,35 @@
   </head>
   <body>
     <div id="main" class="container">
+
       <div id="warning"><h1>Dive Profiler Prototype</h1></div>
+
       <div id="belowtop" class="row">
         <div id="map" class="col-md-8 col-sm-10 col-md-push-4">
-         <svg id="visualisation" viewBox="0 0 700 400" preserveAspectRatio="xMidYMid"></svg>
+          <svg id="visualisation" viewBox="0 0 700 400" preserveAspectRatio="xMidYMid"></svg>
         </div>
 
         <div id="leftmenu" class="col-md-4 col-sm-4 col-md-pull-8">
-          <div class="form-group">
-            <Label for="Depth">Depth</Label>
-            <input type="text" class="form-control" id="Depth" placeholder="Enter a Depth(feet)"/>
-          </div>
-          <div class="form-group">
-            <Label for="Time">Time</Label>
-            <input type="text" class="form-control" id="Time" placeholder="Enter time at depth(minutes)"/>
-          </div>
-          <button type="button" class="btn btn-default" onclick="adddive()">Submit</button>
 
-          <form id="outwater">
+          <div id="inwater">
+            <div class="form-group">
+              <Label for="Depth">Depth</Label>
+              <input type="text" class="form-control" id="Depth" placeholder="Enter a Depth(feet)"/>
+            </div>
+            <div class="form-group">
+              <Label for="Time">Time</Label>
+              <input type="text" class="form-control" id="Time" placeholder="Enter time at depth(minutes)"/>
+            </div>
+            <button type="button" class="btn btn-default" onclick="adddive()">Submit</button>
+          </div>
+
+          <div id="outwater">
             <div class="form-group">
               <Label for="Land">Time on Land</Label>
               <input type="text" class="form-control" id="Land" placeholder="Enter time out of water"/>
             </div>
             <button type="button" class="btn btn-default" onclick="addrest()">Submit</button>
-          </form>
+          </div>
         </div>
 
       </div>
