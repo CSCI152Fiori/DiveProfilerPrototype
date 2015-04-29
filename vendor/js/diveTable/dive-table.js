@@ -6,7 +6,21 @@ function NauiDiveTable(){
   this.depthMeters = [12, 15, 18, 21, 24, 27,  30,  33,  36,  40];
   this.letterGroup = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L'];
   this.maxDiveTime    = [ 130, 80, 55, 45, 35, 25, 22, 15, 12, 8];
+  this.decompMaxTime = [150, 100, 80, 70, 60, 50, 40, 30, 30, 25];
 
+  this.decompTime = [ [[150, 5]],
+                       [[100, 5]],
+                       [[60, 5], [80, 7]],
+                       [[50, 5], [60, 8], [70, 14]],
+                       [[40, 5], [50, 10], [60, 17]],
+                       [[30, 5], [40, 7], [50, 18]],
+                       [[25, 5], [40, 15]],
+                       [[20, 5], [30, 7]],
+                       [[15, 5], [25, 6], [30, 14]],
+                       [[10, 5], [25, 10]]
+                    ];  
+  
+  
   this.timeAtDepth = [ [ 5, 15, 25, 30, 40, 50, 70, 80, 100, 110, 130, 150],
                        [-1, 10, 15, 25, 30, 40, 50, 60,  70,  80,  -1, 100],
                        [-1, 10, 15, 20, 25, 30, 40, 50,  55,  60,  -1,  80],
@@ -101,11 +115,12 @@ this.surfaceIntervalTimes = [ [ 1440, 1440,1440,1440, 1440, 1440, 1440, 1440, 14
 
   //Prototype function CANNOT be used to plan real dives.
   this.surfaceTableLookUp = function(diveGroup, surfaceRestLength){
-    for (var i = 0; i < 12; i++){
+    for (var i = 0; i < 11; i++){
       if (surfaceRestLength >= this.surfaceIntervalTimes[i+1][diveGroup]){
           return i;
       }
     }
+	return 11;
   };
 }
 
