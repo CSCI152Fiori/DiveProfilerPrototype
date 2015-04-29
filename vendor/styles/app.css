@@ -4,6 +4,10 @@ body {
 #splash {
   text-align : center;
 }
+#error-in{
+	color: red;
+	font-weight: bold;
+}
 /*
 #leftmenu {
   width : 30%;

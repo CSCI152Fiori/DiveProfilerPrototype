@@ -47,6 +47,8 @@ function NauiDiveTable(){
                                  [161, 111, 88, 72, 61, 54, -1, -1, -1, -1 ]
                                ];
 
+							   
+							   
   //Prototype function CANNOT be used to plan real dives.
   this.minimumMeterDepth = function(depth) {
     if (depth < 12) {
@@ -122,11 +124,12 @@ function Diver(diveTable){
   this.dive = function(depth, time){
     var tempGroupIndex = this.diveTable.depthRowLookUp(depth);
     if (time + this.residualNitrogenTime > this.diveTable.maxDiveTime[tempGroupIndex]){
-      throw false;
+      return false;
     }
 
     this.currentGroupIndex = this.diveTable.diveTableLookUp(depth, time, this.residualNitrogenTime);
     this.currentGroup = this.letterGroup[this.currentGroupIndex];
+	return true;
   };
 
   //Prototype function CANNOT be used to plan real dives.
