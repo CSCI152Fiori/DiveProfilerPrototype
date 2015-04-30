@@ -4,8 +4,12 @@ function InitChart() {
   var tooltip = d3.select('body').append('div')
   .attr('class','tooltip')
   .style('position', 'absolute')
-  .style('background', 'white')
-  .style('opacity', 0);
+  .style('background', 'rgb(252, 224, 164)')
+  .style('opacity', 0)
+  .style('border', '1px solid rgb(255, 155, 0)')
+  .style('border-radius', '7px')
+  .style('height', '90px')
+  .style('width', '80px');
 
   var vis = d3.select("#visualisation"),
   WIDTH = 700,
@@ -63,8 +67,11 @@ function InitChart() {
     .duration(200)
     .style("opacity", .9);
 
-    tooltip.html(d[0] + "<br/> (" + xValue(d) 
-                 + ", " + yValue(d) + ")")
+    tooltip.html("Group: "
+                 + "<br> Nitrogen: "
+                 + "<br> Depth: " + yValue(d)
+                 + "<br> Time: " + xValue(d)
+                 + "<br> MaxTime:" )
                  .style("left", (d3.event.pageX + 5) + "px")
                  .style("top", (d3.event.pageY - 28) + "px");
                  //Insert all variables
