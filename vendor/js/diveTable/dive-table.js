@@ -115,9 +115,9 @@ this.surfaceIntervalTimes = [ [ 1440, 1440,1440,1440, 1440, 1440, 1440, 1440, 14
 
   //Prototype function CANNOT be used to plan real dives.
   this.surfaceTableLookUp = function(diveGroup, surfaceRestLength){
-    for (var i = 0; i < 11; i++){
-      if (surfaceRestLength >= this.surfaceIntervalTimes[i+1][diveGroup]){
-          return i;
+    for (var i = 0; i < 12; i++){
+      if (surfaceRestLength >= this.surfaceIntervalTimes[i][diveGroup]){
+        return i-1;
       }
     }
 	return 11;
@@ -138,15 +138,31 @@ function Diver(diveTable){
   //Prototype function CANNOT be used to plan real dives.
   this.dive = function(depth, time){
     var tempGroupIndex = this.diveTable.depthRowLookUp(depth);
-    if (time + this.residualNitrogenTime > this.diveTable.maxDiveTime[tempGroupIndex]){
+	if(this.currentGroupIndex > 0){
+		this.residualNitrogenTime = this.diveTable.residualNitrogenTable[this.currentGroupIndex][tempGroupIndex];
+	}	
+    if (time + this.residualNitrogenTime > this.diveTable.decompMaxTime[tempGroupIndex]){
       return false;
     }
-
     this.currentGroupIndex = this.diveTable.diveTableLookUp(depth, time, this.residualNitrogenTime);
     this.currentGroup = this.letterGroup[this.currentGroupIndex];
 	return true;
   };
 
+  this.decompCheck = function(depth, time){
+	var i;
+    var tempGroupIndex = this.diveTable.depthRowLookUp(depth); 
+	var totime = time + this.residualNitrogenTime;
+	if(totime <= this.maxDiveTime[tempGroupIndex]){
+		return 0;
+	}
+	for(i = 0; i < this.diveTable.decompTime[tempGroupIndex].length; i++){
+		if(totime <= this.diveTable.decompTime[tempGroupIndex][i][0]){
+		return this.diveTable.decompTime[tempGroupIndex][i][1];
+		}
+	}
+  }
+  
   //Prototype function CANNOT be used to plan real dives.
   this.surface = function(time){
     this.currentGroupIndex = this.diveTable.surfaceTableLookUp(this.currentGroupIndex, time);

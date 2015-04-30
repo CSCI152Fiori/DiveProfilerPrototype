@@ -47,10 +47,23 @@ function adddive() {
 		todepth = Math.abs(todepth);
 		var totime = last[0] + (todepth/30);
 		data.push([totime,dep]);
-		time = totime+time;
-		data.push([time, dep]);
-		totime=time+(todepth/30);
-		data.push([totime, 0 ]);
+		totime = totime+time;
+		data.push([totime, dep]);
+		var decompTime = diver.decompCheck(dep, time);
+		if(decompTime == 0){
+			totime=totime+(todepth/30);
+			data.push([totime, 0 ]);
+			
+		}
+		else{
+			var todepth = dep-15;
+			totime=totime+(todepth/30);
+			data.push([totime, 15]);
+			totime = totime+decompTime;
+			data.push([totime,15]);
+			totime = totime+.5;
+			data.push([totime, 0]);
+		}
 		InitChart();
 		$("#Depth").val("");
 		$("#Time").val("");
