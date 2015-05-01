@@ -1,3 +1,5 @@
+//This is a prototype Dive Graph Function and CANNOT be used
+//to plan a dive
 function InitChart() {
   d3.selectAll("svg > *").remove()
   var tempColor;
@@ -9,6 +11,8 @@ function InitChart() {
   .style('border', '1px solid rgb(255, 155, 0)')
   .style('border-radius', '7px');
 
+  
+  
   var vis = d3.select("#visualisation"),
   WIDTH = 700,
   HEIGHT = 400,
@@ -18,18 +22,16 @@ function InitChart() {
     bottom: 20,
     left: 50
   },
-  xScale = d3.scale.linear().range([MARGINS.left, WIDTH - MARGINS.right]).domain(d3.max(data, function(d) {
-    var x = 180;
-    if(x < d[0]){ x = d[0];}
-    return [0, x];
-  }));
+  xScale = d3.scale.linear().range([MARGINS.left, WIDTH - MARGINS.right]).domain([0, 60]);
   yScale = d3.scale.linear().range([HEIGHT - MARGINS.top, MARGINS.bottom]).domain([150, 0]),
   xAxis = d3.svg.axis()
   .scale(xScale),
   yAxis = d3.svg.axis()
   .scale(yScale)
   .orient("left");
-
+  var max = d3.max(data, function(d) { return +d[0];} );
+  xScale.domain([0,(max+max/3)]); 
+  
   vis.append("svg:g")
   .attr("class", "x axis")
   .attr("transform", "translate(0," + (HEIGHT - MARGINS.bottom) + ")")
@@ -52,11 +54,15 @@ function InitChart() {
   .attr('stroke-width', 2)
   .attr('fill', 'none');
 
+  //This is a prototype function and CANNOT be used to plan a dive
   var xValue = function(d) { return d[0];},
   xMap = function(d) { return xScale(xValue(d));};
+
+  //This is a prototype function and CANNOT be used to plan a dive
   var yValue = function(d) { return d[1];},
   yMap = function(d) { return yScale(yValue(d));};
 
+  //This is a prototype function and CANNOT be used to plan a dive
   var adddecomp = function(d){
     if(d[2] > 0){
       return ("Decompression Time: " + d[2]);
@@ -65,6 +71,8 @@ function InitChart() {
       return "";
     }
   };
+
+  //This is a prototype function and CANNOT be used to plan a dive
   var divevalue = function(d){ return d[3];};
 
   vis.selectAll(".dot")
@@ -81,7 +89,7 @@ function InitChart() {
     .style("opacity", .9);
 
     tooltip.html("Total Time: " + Math.floor(xValue(d))
-                 + "<br />Total Depth: " + yValue(d)
+                 + "<br />Depth: " + yValue(d)
                  + "<br />Dive Group: " + divevalue(d)
                  + "<br />" + adddecomp(d))
                  .style("left", (d3.event.pageX + 5) + "px")
