@@ -68,9 +68,42 @@ QUnit.test('SIT Test', function(assert) {
 
 // Based on example from http://www.scubadiverinfo.com/2_divetables.html
 QUnit.test('Dive and Surface', function(assert) {
-  this.diver.dive(35, 60);
+  this.diver.dive(40, 60);
   this.diver.surface(this.diver.currentGroupIndex, 30);
   assert.ok( this.diver.currentGroup === "G", "Correct Group!" );
+});
+
+QUnit.module("Nitrogen tests", {
+  beforeEach: function(){
+    this.dt = new NauiDiveTable();
+    this.diver = new Diver(this.dt);
+  }
+});
+
+QUnit.test('Residual Nitrogen Time should be 0 before the first dive of the day', function(assert){
+  this.diver.dive(40, 60);
+  assert.ok(this.diver.residualNitrogenTime === 0);
+});
+
+QUnit.test('Residual Nitrogen Time should be > 0 during repetitive dives in the same day', function(assert){
+  this.diver.dive(40, 60);
+  this.diver.surface(120);
+  this.diver.dive(40, 60);
+  assert.ok(this.diver.residualNitrogenTime === 37);
+});
+
+QUnit.test('Residual Nitrogen Time should be 0 after a day of surface interval time', function(assert){
+  this.diver.dive(40, 60);
+  this.diver.surface(120);
+  this.diver.dive(40, 60);
+  this.diver.surface(1440);
+  assert.ok(this.diver.residualNitrogenTime === 0);
+});
+
+QUnit.test('If RNT is too high invalid dives are rejected', function(assert){
+  this.diver.dive(70, 45);
+  this.diver.surface(10);
+  assert.ok(this.diver.dive(40, 50) === false);
 });
 
 
