@@ -4,6 +4,10 @@ html, body, #main
   min-height: 100%;
   font-family: Roboto;
 }
+#map {
+	background-image: url("../img/warning.png");
+	background-repeat:no-repeat;
+}
 
 #splash {
   text-align : center;
