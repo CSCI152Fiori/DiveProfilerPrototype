@@ -96,6 +96,12 @@ function adddive() {
     $("#error-in").text("Depth is over limit(130 ft)");
     valid = false;
   }
+  if(dep < 40){
+    $("#Depth").css("border"," 3px solid red");
+    $("#Time").css("border","");
+    $("#error-in").text("Depth is under minimum(40 ft)");
+    valid = false;
+  }  
   if(time > 150){
     $("#Depth").css("border","");
     $("#Time").css("border","3px solid red");
