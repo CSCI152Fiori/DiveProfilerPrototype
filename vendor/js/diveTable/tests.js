@@ -19,13 +19,9 @@ QUnit.module("Naui Table Tests", {
     this.d = new NauiDiveTable();
   }
 });
+
 QUnit.test('Dive Table Look Up', function(assert) {
   assert.strictEqual(this.d.diveTableLookUp(50, 25, 0), 3, 'Return Correct Index of Dive Group');
-});
-
-QUnit.test('Minimum Depth in Meters', function(assert){
-  assert.strictEqual(this.d.minimumMeterDepth(0), 12, 'Maintain minumum depth');
-  assert.strictEqual(this.d.minimumMeterDepth(30), 30, 'depth exceeds minimum');
 });
 
 QUnit.test('Depth Row Look Up', function(assert) {
@@ -106,4 +102,27 @@ QUnit.test('If RNT is too high invalid dives are rejected', function(assert){
   assert.ok(this.diver.dive(40, 50) === false);
 });
 
+QUnit.module("Decompression Stops", {
+  beforeEach: function(){
+    this.dt = new NauiDiveTable();
+    this.diver = new Diver(this.dt);
+  }
+});
 
+QUnit.test('No decompression stop needed for dives <= maximum dive time', function(assert){
+  this.diver.dive(40, 60);
+  assert.ok(this.diver.decompCheck(40, 60) === 0);
+});
+
+QUnit.test('A decompression stop is added to the ascent of the first dive'
+           + ' when the nitrogen accumulated during the dive is too high', function(assert){
+  this.diver.dive(70, 60);
+  assert.ok(this.diver.decompCheck(70, 60) === 8);
+});
+
+QUnit.test('A decompression stop is added during a repetitive dive when Total Nitrogen Time is too high', function(assert){
+  this.diver.dive(40, 60);
+  this.diver.surface(60);
+  this.diver.dive(70, 20);
+  assert.ok(this.diver.decompCheck(70, 20) === 8);
+});
