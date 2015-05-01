@@ -168,4 +168,19 @@ function Diver(diveTable){
     this.currentGroupIndex = this.diveTable.surfaceTableLookUp(this.currentGroupIndex, time);
     this.currentGroup = this.letterGroup[this.currentGroupIndex];
   };
+  
+  this.indexFromGroup = function(letter){
+	var a = -1;
+	if('0' == letter){
+		this.currentGroupIndex = -1;
+	}
+	else{
+		a=0;
+		while(letter != this.letterGroup[a]){
+			a++;
+		}
+		this.currentGroupIndex = a;
+	}
+  };
+  
 }

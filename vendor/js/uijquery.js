@@ -1,6 +1,8 @@
 $(document).ready(function () {
 	$("#outwater").hide();
+	$("#revbutton").hide();
 	InitChart();
+	
 });
 	divetable = NauiDiveTable();
 	var data = [[0,0, 0, '0']]; //[time, depth]	//decomp, divegroup
@@ -15,6 +17,7 @@ function reset() {
 	totaldives = 0;
 	InitChart();
 	$("#Land").val("");
+	$("#Land").css("border","");
 	$("#inwater").show();
 	$("#outwater").hide();	
 	$("#Depth").css("border","");
@@ -24,14 +27,50 @@ function reset() {
 	$("#error-in").text("");
 	$("#error-out").text("");
 	$("#infobox").html("");
+	$("#revbutton").hide();
 }
 function revertdive() {
 	data.pop();
-	if($("#outwater").is(":visible")){
+	if(data[data.length-1][0] == 0){
+		reset();
+	}
+	else if($("#inwater").is(":visible")){
 		$("#outwater").toggle();
 		$("#inwater").toggle();
+		$("#Depth").css("border","");
+		$("#Time").css("border","");
+		$("#Depth").val("");
+		$("#Time").val("");
+		$("#error-in").text("");
+		var groupindex = data[data.length-1][3];
+		diver.indexFromGroup(groupindex);
+		$("#infobox").html("Total Dive Time: " + data[data.length-1][0]
+						+ "<br />Current Dive Group: " + data[data.length-1][3]
+						+ "<br />Total Dives: " + totaldives);
+		InitChart();
 	}
-	
+	else{
+		while(data[data.length-1][1] != 0){
+			data.pop();
+		}
+		if(data[data.length-1][0] == 0){
+			reset();
+		}
+		else{
+			$("#outwater").toggle();
+			$("#inwater").toggle();
+			$("#Land").val("");
+			$("#error-in").text("");
+			$("#error-out").text("");
+			totaldives = totaldives - 1;
+			var groupindex = data[data.length-1][3];
+			diver.indexFromGroup(groupindex);
+			$("#infobox").html("Total Dive Time: " + data[data.length-1][0]
+							+ "<br />Current Dive Group: " + data[data.length-1][3]
+							+ "<br />Total Dives: " + totaldives);
+			InitChart();
+		}							
+	}
 }
 	
 function adddive() {
@@ -97,6 +136,7 @@ function adddive() {
 		$("#Time").val("");
 		$("#inwater").hide();
 		$("#outwater").show();
+		$("#revbutton").show();
 		$("#Depth").css("border","");
 		$("#Time").css("border","");
 		$("#error-in").text("");
@@ -132,7 +172,9 @@ function adddive() {
 	diver.surface(time);
 	var divegroup = diver.currentGroup;
 	data.push([ time, 0, 0, divegroup]);
-	$("#Land").val("");
+	$("#Land").val("")
+	$("#Land").css("border","");
+	$("#error-out").text("");
 	$("#inwater").show();
 	$("#outwater").hide();	
 	InitChart();
