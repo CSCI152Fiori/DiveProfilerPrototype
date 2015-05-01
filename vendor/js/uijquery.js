@@ -194,8 +194,8 @@ function addrest() {
   if(valid){
     var last = data[data.length-1];
 	surfacetime += time;
+    diver.surface(time);	
     time = last[0] + time;
-    diver.surface(time);
     var divegroup = diver.currentGroup;
     data.push([ time, 0, 0, divegroup]);
 
