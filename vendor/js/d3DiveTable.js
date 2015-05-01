@@ -11,6 +11,8 @@ function InitChart() {
   .style('border', '1px solid rgb(255, 155, 0)')
   .style('border-radius', '7px');
 
+  
+  
   var vis = d3.select("#visualisation"),
   WIDTH = 700,
   HEIGHT = 400,
@@ -20,18 +22,16 @@ function InitChart() {
     bottom: 20,
     left: 50
   },
-  xScale = d3.scale.linear().range([MARGINS.left, WIDTH - MARGINS.right]).domain(d3.max(data, function(d) {
-    var x = 180;
-    if(x < d[0]){ x = d[0];}
-    return [0, x];
-  }));
+  xScale = d3.scale.linear().range([MARGINS.left, WIDTH - MARGINS.right]).domain([0, 60]);
   yScale = d3.scale.linear().range([HEIGHT - MARGINS.top, MARGINS.bottom]).domain([150, 0]),
   xAxis = d3.svg.axis()
   .scale(xScale),
   yAxis = d3.svg.axis()
   .scale(yScale)
   .orient("left");
-
+  var max = d3.max(data, function(d) { return +d[0];} );
+  xScale.domain([0,(max+max/3)]); 
+  
   vis.append("svg:g")
   .attr("class", "x axis")
   .attr("transform", "translate(0," + (HEIGHT - MARGINS.bottom) + ")")
