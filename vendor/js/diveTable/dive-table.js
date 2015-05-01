@@ -125,7 +125,7 @@ this.surfaceIntervalTimes = [ [ 1440, 1440,1440,1440, 1440, 1440, 1440, 1440, 14
 }
 
 function Diver(diveTable){
-  this.letterGroup = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L'];
+  this.letterGroup = ['0','A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L'];
 
   this.diveTable            = diveTable;
   this.currentGroupIndex    = -1;
@@ -145,7 +145,7 @@ function Diver(diveTable){
       return false;
     }
     this.currentGroupIndex = this.diveTable.diveTableLookUp(depth, time, this.residualNitrogenTime);
-    this.currentGroup = this.letterGroup[this.currentGroupIndex];
+    this.currentGroup = this.letterGroup[this.currentGroupIndex+1];
 	return true;
   };
 
@@ -166,7 +166,10 @@ function Diver(diveTable){
   //Prototype function CANNOT be used to plan real dives.
   this.surface = function(time){
     this.currentGroupIndex = this.diveTable.surfaceTableLookUp(this.currentGroupIndex, time);
-    this.currentGroup = this.letterGroup[this.currentGroupIndex];
+    this.currentGroup = this.letterGroup[this.currentGroupIndex+1];
+	if(this.currentGroupIndex == -1){
+		this.residualNitrogenTime = 0;
+	}
   };
   
   this.indexFromGroup = function(letter){
@@ -176,7 +179,7 @@ function Diver(diveTable){
 	}
 	else{
 		a=0;
-		while(letter != this.letterGroup[a]){
+		while(letter != this.letterGroup[a+1]){
 			a++;
 		}
 		this.currentGroupIndex = a;
