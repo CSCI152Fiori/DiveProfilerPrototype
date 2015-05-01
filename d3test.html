@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+    <link rel="stylesheet" href="vendor/styles/app.css">
+    <link href='http://fonts.googleapis.com/css?family=Roboto:500,300,700,400' rel='stylesheet' type='text/css'>
+    <title>Fiori Dive Profiler Prototype</title>
+  </head>
+  <body>
+
+    <div id="main" class="container-fluid">
+
+      <div id="warning"><h1>Dive Profiler Prototype</h1></div>
+
+      <div id="belowtop" class="row">
+        <div id="map" class="col-md-8 col-sm-10 col-md-push-4">
+          <svg id="visualisation" viewBox="0 0 700 400" preserveAspectRatio="xMidYMid"></svg>
+        </div>
+
+        <div id="leftmenu" class="col-md-4 col-sm-4 col-md-pull-8">
+
+          <div id="inwater">
+            <div class="form-group">
+            	<div class="input-group">
+            	  <span id="GLYPH" class="glyphicon glyphicon-arrow-down input-group-addon"></span>
+            	  <input type="text" class="form-control" id="Depth" placeholder="Enter a depth (feet)"/>
+            	</div>
+            </div>
+            <div class="form-group">
+            	<div class="input-group">
+            	  <span class="glyphicon glyphicon-time input-group-addon"></span>
+            	  <input type="text" class="form-control" id="Time" placeholder="Enter time at depth (minutes)"/>
+            	</div>
+            </div>
+              <div class="btn-group btn-group-justified">
+              	<div class="btn-group">
+              		<button type="button" class="btn btn-default" onclick="adddive()">Submit</button>
+					<button type="button" class="btn btn-default" onclick="reset()">Reset</button>
+				</div>
+              </div>
+			  <div id="error-in"></div>
+          </div>
+
+          <div id="outwater">
+            <div class="form-group">
+              <Label for="Land">Time on Land</Label>
+              <input type="text" class="form-control" id="Land" placeholder="Enter time out of water"/>
+            </div>
+              <div class="btn-group btn-group-justified">			
+            	<div class="btn-group">
+					<button type="button" class="btn btn-default" onclick="addrest()">Submit</button>
+  		            <button type="button" class="btn btn-default" onclick="reset()">Reset</button> 
+				</div>
+			  </div>
+			  <div id="error-out"></div>			  
+          </div>
+		  
+        </div>
+
+      </div>
+    </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+	<script src="vendor/js/diveTable/dive-table.js"></script>
+    <script src="vendor/js/uijquery.js"></script>
+    <script src="vendor/js/d3DiveTable.js"></script>
+  </body>
+
+</html>
