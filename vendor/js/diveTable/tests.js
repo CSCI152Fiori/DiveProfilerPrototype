@@ -50,23 +50,40 @@ QUnit.module("Diver Tests", {
   }
 });
 
-QUnit.test('Dive Test', function(assert) {
+QUnit.test('A diver should not begin the first dive in a group', function(assert) {
+  assert.ok( this.diver.currentGroup === "0");
+  assert.ok( this.diver.currentGroupIndex === -1);
+});
+
+QUnit.test('A valid dive returns the correct group', function(assert) {
   this.diver.dive(50, 25);
   assert.ok( this.diver.currentGroup === "D", "Correct Group!" );
 });
 
-QUnit.test('SIT Test', function(assert) {
+QUnit.module("Surface Interval Tests", {
+  beforeEach: function(){
+    this.dt = new NauiDiveTable();
+    this.diver = new Diver(this.dt);
+  }
+});
+
+QUnit.test('Surface Interval Times that are too short do not affect the group', function(assert) {
   this.diver.dive(50, 25);
-  this.diver.surface(3, 30);
+  this.diver.surface(30);
   assert.ok( this.diver.currentGroup === "D", "Correct Group!" );
 });
 
+QUnit.test('Surface Intervals Times can change the group', function(assert) {
+  this.diver.dive(50, 25);
+  this.diver.surface(120);
+  assert.ok( this.diver.currentGroup === "C", "Correct Group!" );
+});
 
 // Based on example from http://www.scubadiverinfo.com/2_divetables.html
-QUnit.test('Dive and Surface', function(assert) {
+QUnit.test('A surface interval >= 1440 minutes (one day) remove the diver from all dive groups', function(assert) {
   this.diver.dive(40, 60);
-  this.diver.surface(this.diver.currentGroupIndex, 30);
-  assert.ok( this.diver.currentGroup === "G", "Correct Group!" );
+  this.diver.surface(1440);
+  assert.ok( this.diver.currentGroup === "0", "Correct Group!" );
 });
 
 QUnit.module("Nitrogen tests", {
