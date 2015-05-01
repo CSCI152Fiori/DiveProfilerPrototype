@@ -9,9 +9,13 @@ var data = [[0,0, 0, '0']]; //[time, depth]	//decomp, divegroup
 diveTable = new NauiDiveTable();
 diver = new Diver(diveTable);
 totaldives = 0;
+surfacetime = 0;
+divetime = 0;
 //safe ascent rate will be 30 feet per minute
 function reset() {
   data = [[0,0,0,'0']];
+  surfacetime = 0;
+  divetime = 0;
   diveTable = new NauiDiveTable();
   diver = new Diver(diveTable);
   totaldives = 0;
@@ -30,11 +34,12 @@ function reset() {
   $("#revbutton").hide();
 }
 function revertdive() {
-  data.pop();
+  var d = data.pop();
   if(data[data.length-1][0] == 0){
     reset();
   }
   else if($("#inwater").is(":visible")){
+	surfacetime = surfacetime - (d[0] - data[data.length-1][0]);
     $("#outwater").toggle();
     $("#inwater").toggle();
     $("#Depth").css("border","");
@@ -44,15 +49,19 @@ function revertdive() {
     $("#error-in").text("");
     var groupindex = data[data.length-1][3];
     diver.indexFromGroup(groupindex);
-    $("#infobox").html("Total Dive Time: " + Math.floor(data[data.length-1][0])
+    $("#infobox").html("Total Time: " + Math.floor(data[data.length-1][0])
+					   + "<br />Total Dive Time: " + Math.floor(divetime) 
+					   + "<br />Total Surface Time: " + Math.floor(surfacetime)	
                        + "<br />Current Dive Group: " + data[data.length-1][3]
                        + "<br />Total Dives: " + totaldives);
                        InitChart();
   }
   else{
     while(data[data.length-1][1] != 0){
-      data.pop();
+      divetime = divetime - (d[0] - data[data.length-1][0]);	  
+      d = data.pop();
     }
+    divetime = divetime - (d[0] - data[data.length-1][0]);	  	
     if(data[data.length-1][0] == 0){
       reset();
     }
@@ -65,7 +74,9 @@ function revertdive() {
       totaldives = totaldives - 1;
       var groupindex = data[data.length-1][3];
       diver.indexFromGroup(groupindex);
-      $("#infobox").html("Total Dive Time: " + Math.floor(data[data.length-1][0])
+      $("#infobox").html("Total Time: " + Math.floor(data[data.length-1][0])
+						 + "<br />Total Dive Time: " + Math.floor(divetime) 
+						 + "<br />Total Surface Time: " + Math.floor(surfacetime)
                          + "<br />Current Dive Group: " + data[data.length-1][3]
                          + "<br />Total Dives: " + totaldives);
                          InitChart();
@@ -119,14 +130,17 @@ function adddive() {
     var todepth = dep - last[1];
     todepth = Math.abs(todepth);
     var totime = last[0] + (todepth/30);
+	var baseasc = (dep/30);
+	divetime += baseasc;
     data.push([totime,dep, 0, divegroup]);
     totime = totime+time;
+	divetime += time;
     data.push([totime, dep, 0, divegroup]);
     var decompTime = diver.decompCheck(dep, time);
     if(decompTime == 0){
       totime=totime+(todepth/30);
       data.push([totime, 0, 0, divegroup]);
-
+	  divetime += baseasc;
     }
     else{
       var todepth = dep-15;
@@ -136,6 +150,8 @@ function adddive() {
       data.push([totime,15, decompTime, divegroup]);
       totime = totime+.5;
       data.push([totime, 0, decompTime, divegroup]);
+	  divetime += baseasc;
+	  divetime += decompTime;
     }
     InitChart();
     $("#Depth").val("");
@@ -147,7 +163,9 @@ function adddive() {
     $("#Time").css("border","");
     $("#error-in").text("");
     totaldives =totaldives + 1;
-    $("#infobox").html("Total Dive Time: " + Math.floor(totime)
+    $("#infobox").html("Total Time: " + Math.floor(totime)
+					   + "<br />Total Dive Time: " + Math.floor(divetime) 
+					   + "<br />Total Surface Time: " + Math.floor(surfacetime)	
                        + "<br />Current Dive Group: " + divegroup
                        + "<br />Total Dives: " + totaldives);
 
@@ -161,7 +179,7 @@ function adddive() {
 }
 
 function addrest() {
-  var valid;
+  var valid = true;
   var time = parseInt($("#Land").val(), 10);
   if(time == 0){
     $("#Land").css("border","3px solid red");
@@ -173,18 +191,24 @@ function addrest() {
     $("#error-out").text("Please enter a number");
     valid = false;
   }
-  var last = data[data.length-1];
-  time = last[0] + time;
-  diver.surface(time);
-  var divegroup = diver.currentGroup;
-  data.push([ time, 0, 0, divegroup]);
-  $("#Land").val("")
-  $("#Land").css("border","");
-  $("#error-out").text("");
-  $("#inwater").show();
-  $("#outwater").hide();
-  InitChart();
-  $("#infobox").html("Total Dive Time: " + Math.floor(time)
-                     + "<br />Current Dive Group: " + divegroup);
+  if(valid){
+    var last = data[data.length-1];
+	surfacetime += time;
+    time = last[0] + time;
+    diver.surface(time);
+    var divegroup = diver.currentGroup;
+    data.push([ time, 0, 0, divegroup]);
 
+    $("#Land").val("")
+    $("#Land").css("border","");
+    $("#error-out").text("");
+    $("#inwater").show();
+    $("#outwater").hide();
+    InitChart();
+    $("#infobox").html("Total Time: " + Math.floor(time)
+					 + "<br />Total Dive Time: " + Math.floor(divetime) 
+					 + "<br />Total Surface Time: " + Math.floor(surfacetime)	
+                     + "<br />Current Dive Group: " + divegroup
+                     + "<br />Total Dives: " + totaldives);					 
+  }
 }
