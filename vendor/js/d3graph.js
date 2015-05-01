@@ -6,7 +6,8 @@ function InitChart() {
   .attr('class','tooltip')
   .style('position', 'absolute')
   .style('background', 'white')
-  .style('opacity', 0);
+  .style('opacity', 0)
+  .style('border', 'solid');
 
   var vis = d3.select("#visualisation"),
   WIDTH = 700,
@@ -64,7 +65,7 @@ function InitChart() {
     .duration(200)
     .style("opacity", .9);
 
-    tooltip.html(d[0] + "<br/> (" + xValue(d) 
+    tooltip.html("(" + xValue(d) 
                  + ", " + yValue(d) + ")")
                  .style("left", (d3.event.pageX + 5) + "px")
                  .style("top", (d3.event.pageY - 28) + "px");
