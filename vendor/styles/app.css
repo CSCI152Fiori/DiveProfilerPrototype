@@ -1,25 +1,37 @@
-body {
-  background-color: #ddddff;
+html, body, #main
+{
+  height: 100%;
+  min-height: 100%;
+  font-family: Roboto;
 }
+
 #splash {
   text-align : center;
 }
-/*
-#leftmenu {
-  width : 30%;
-  text-align:left;
-  vertical-align:top;
-  display : inline-block;
+#error-in{
+	color: red;
+	font-weight: bold;
 }
+#leftmenu {
+  padding-top: 3em;
+}
+
 #warning {
   text-align : center;
 }
-#map {
-  width : 60%;
-  display : inline-block;
-}
 
 #main {
-
+  background: #cfe7fa; /* Old browsers */
+  background: -moz-linear-gradient(top,  #cfe7fa 0%, #6393c1 100%); /* FF3.6+ */
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#cfe7fa), color-stop(100%,#6393c1)); /* Chrome,Safari4+ */
+  background: -webkit-linear-gradient(top,  #cfe7fa 0%,#6393c1 100%); /* Chrome10+,Safari5.1+ */
+  background: -o-linear-gradient(top,  #cfe7fa 0%,#6393c1 100%); /* Opera 11.10+ */
+  background: -ms-linear-gradient(top,  #cfe7fa 0%,#6393c1 100%); /* IE10+ */
+  background: linear-gradient(to bottom,  #cfe7fa 0%,#6393c1 100%); /* W3C */
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#cfe7fa', endColorstr='#6393c1',GradientType=0 ); /* IE6-9 */
 }
-*/
+
+
+.glyphicon {
+  top: 0;
+}
