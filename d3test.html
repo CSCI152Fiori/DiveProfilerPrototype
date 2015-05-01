@@ -39,7 +39,8 @@
               <div class="btn-group btn-group-justified">
               	<div class="btn-group">
               		<button type="button" class="btn btn-default" onclick="adddive()">Submit</button>
-              	</div>
+					<button type="button" class="btn btn-default" onclick="reset()">Reset</button>
+				</div>
               </div>
 			  <div id="error-in"></div>
           </div>
@@ -49,8 +50,15 @@
               <Label for="Land">Time on Land</Label>
               <input type="text" class="form-control" id="Land" placeholder="Enter time out of water"/>
             </div>
-            <button type="button" class="btn btn-default" onclick="addrest()">Submit</button>
+              <div class="btn-group btn-group-justified">			
+            	<div class="btn-group">
+					<button type="button" class="btn btn-default" onclick="addrest()">Submit</button>
+  		            <button type="button" class="btn btn-default" onclick="reset()">Reset</button> 
+				</div>
+			  </div>
+			  <div id="error-out"></div>			  
           </div>
+		  
         </div>
 
       </div>

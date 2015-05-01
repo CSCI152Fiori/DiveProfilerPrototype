@@ -3,10 +3,26 @@ $(document).ready(function () {
 	InitChart();
 });
 	divetable = NauiDiveTable();
-	var data = [[0,0]]; //[time, depth]	
+	var data = [[0,0, 0, '0']]; //[time, depth]	//decomp, divegroup
     diveTable = new NauiDiveTable();
 	diver = new Diver(diveTable);
 	//safe ascent rate will be 30 feet per minute
+function reset() {	
+	data = [[0,0,0,'0']];
+    diveTable = new NauiDiveTable();
+	diver = new Diver(diveTable);
+	InitChart();
+	$("#Land").val("");
+	$("#inwater").show();
+	$("#outwater").hide();	
+	$("#Depth").css("border","");
+	$("#Time").css("border","");
+	$("#Depth").val("");
+	$("#Time").val("");
+	$("#error-in").text("");
+	$("#error-out").text("");
+}
+	
 function adddive() {
 	var dep = parseInt($("#Depth").val(), 10);
 	var last = data[data.length-1];
@@ -43,26 +59,27 @@ function adddive() {
 		valid = false;
 	}
 	if(diver.dive(dep,time) && valid){
+		var divegroup = diver.currentGroup;
 		var todepth = dep - last[1];
 		todepth = Math.abs(todepth);
 		var totime = last[0] + (todepth/30);
-		data.push([totime,dep]);
+		data.push([totime,dep, 0, divegroup]);
 		totime = totime+time;
-		data.push([totime, dep]);
+		data.push([totime, dep, 0, divegroup]);
 		var decompTime = diver.decompCheck(dep, time);
 		if(decompTime == 0){
 			totime=totime+(todepth/30);
-			data.push([totime, 0 ]);
+			data.push([totime, 0, 0, divegroup]);
 			
 		}
 		else{
 			var todepth = dep-15;
 			totime=totime+(todepth/30);
-			data.push([totime, 15]);
+			data.push([totime, 15, decompTime, divegroup]);
 			totime = totime+decompTime;
-			data.push([totime,15]);
+			data.push([totime,15, decompTime, divegroup]);
 			totime = totime+.5;
-			data.push([totime, 0]);
+			data.push([totime, 0, decompTime, divegroup]);
 		}
 		InitChart();
 		$("#Depth").val("");
@@ -81,11 +98,23 @@ function adddive() {
 }
 	
 	function addrest() {
+	var valid;
 	var time = parseInt($("#Land").val(), 10);	
+	if(time == 0){
+		$("#Land").css("border","3px solid red");
+		$("#error-out").text("Time must be greater than 0");	
+		valid = false;
+	}
+	if(!$.isNumeric($("#Land").val())){
+		$("#Land").css("border","3px solid red");		
+		$("#error-out").text("Please enter a number");	
+		valid = false;
+	}	
 	var last = data[data.length-1];
 	time = last[0] + time;
 	diver.surface(time);
-	data.push([ time, 0]);
+	var divegroup = diver.currentGroup;
+	data.push([ time, 0, 0, divegroup]);
 	$("#Land").val("");
 	$("#inwater").show();
 	$("#outwater").hide();	
