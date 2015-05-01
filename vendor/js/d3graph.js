@@ -1,4 +1,6 @@
 
+//This is as prototype Dive graph function 
+//and CANNOT be used for real dive
 function InitChart() {
   d3.selectAll("svg > *").remove()
   var tempColor;
@@ -47,8 +49,11 @@ function InitChart() {
   .attr('stroke-width', 2)
   .attr('fill', 'none');
 
+  //This is a prototype function and CANNOT be used to plan a Dive
   var xValue = function(d) { return d[0];},					
   xMap = function(d) { return xScale(xValue(d));};
+  
+  //This is a prototype function and CANNOT be used to plan a dive
   var yValue = function(d) { return d[1];},					
   yMap = function(d) { return yScale(yValue(d));};
 

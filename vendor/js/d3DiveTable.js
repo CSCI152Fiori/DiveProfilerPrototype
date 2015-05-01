@@ -1,3 +1,5 @@
+//This is a prototype Dive Graph Function and CANNOT be used
+//to plan a dive
 function InitChart() {
   d3.selectAll("svg > *").remove()
   var tempColor;
@@ -52,11 +54,15 @@ function InitChart() {
   .attr('stroke-width', 2)
   .attr('fill', 'none');
 
+  //This is a prototype function and CANNOT be used to plan a dive
   var xValue = function(d) { return d[0];},
   xMap = function(d) { return xScale(xValue(d));};
+
+  //This is a prototype function and CANNOT be used to plan a dive
   var yValue = function(d) { return d[1];},
   yMap = function(d) { return yScale(yValue(d));};
 
+  //This is a prototype function and CANNOT be used to plan a dive
   var adddecomp = function(d){
     if(d[2] > 0){
       return ("Decompression Time: " + d[2]);
@@ -65,6 +71,8 @@ function InitChart() {
       return "";
     }
   };
+
+  //This is a prototype function and CANNOT be used to plan a dive
   var divevalue = function(d){ return d[3];};
 
   vis.selectAll(".dot")
