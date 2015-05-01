@@ -89,7 +89,7 @@ function InitChart() {
     .style("opacity", .9);
 
     tooltip.html("Total Time: " + Math.floor(xValue(d))
-                 + "<br />Total Depth: " + yValue(d)
+                 + "<br />Depth: " + yValue(d)
                  + "<br />Dive Group: " + divevalue(d)
                  + "<br />" + adddecomp(d))
                  .style("left", (d3.event.pageX + 5) + "px")

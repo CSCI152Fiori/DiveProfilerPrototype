@@ -65,7 +65,7 @@ function revertdive() {
       totaldives = totaldives - 1;
       var groupindex = data[data.length-1][3];
       diver.indexFromGroup(groupindex);
-      $("#infobox").html("Total Dive Time: " + data[data.length-1][0]
+      $("#infobox").html("Total Dive Time: " + Math.floor(data[data.length-1][0])
                          + "<br />Current Dive Group: " + data[data.length-1][3]
                          + "<br />Total Dives: " + totaldives);
                          InitChart();
@@ -141,7 +141,7 @@ function adddive() {
     $("#Time").css("border","");
     $("#error-in").text("");
     totaldives =totaldives + 1;
-    $("#infobox").html("Total Dive Time: " + totime
+    $("#infobox").html("Total Dive Time: " + Math.floor(totime)
                        + "<br />Current Dive Group: " + divegroup
                        + "<br />Total Dives: " + totaldives);
 
@@ -178,7 +178,7 @@ function addrest() {
   $("#inwater").show();
   $("#outwater").hide();
   InitChart();
-  $("#infobox").html("Total Dive Time: " + time
+  $("#infobox").html("Total Dive Time: " + Math.floor(time)
                      + "<br />Current Dive Group: " + divegroup);
 
 }
