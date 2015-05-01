@@ -16,7 +16,11 @@ function InitChart() {
     bottom: 20,
     left: 50
   },
-  xScale = d3.scale.linear().range([MARGINS.left, WIDTH - MARGINS.right]).domain([0, 180]),
+  xScale = d3.scale.linear().range([MARGINS.left, WIDTH - MARGINS.right]).domain(d3.max(data, function(d) {
+	var x = 180;
+	if(x < d[0]){ x = d[0];}
+	return [0, x];
+	}));
   yScale = d3.scale.linear().range([HEIGHT - MARGINS.top, MARGINS.bottom]).domain([150, 0]),
   xAxis = d3.svg.axis()
   .scale(xScale),
@@ -40,8 +44,9 @@ function InitChart() {
     return yScale(d[1]);
   })
   vis.append('svg:path')
+  .data(data)
   .attr('d', lineGen(data))
-  .attr('stroke', 'green')
+  .attr('stroke', "green")
   .attr('stroke-width', 2)
   .attr('fill', 'none');
 
@@ -50,6 +55,16 @@ function InitChart() {
   var yValue = function(d) { return d[1];},					
   yMap = function(d) { return yScale(yValue(d));};
 
+  var adddecomp = function(d){
+	if(d[2] > 0){
+		return ("Decompression Time: " + d[2]);
+	}
+	else{
+		return "";
+	}
+  };
+  var divevalue = function(d){ return d[3];};
+  
   vis.selectAll(".dot")
   .data(data)
   .enter().append("circle")
@@ -63,8 +78,10 @@ function InitChart() {
     .duration(200)
     .style("opacity", .9);
 
-    tooltip.html(d[0] + "<br/> (" + xValue(d) 
-                 + ", " + yValue(d) + ")")
+    tooltip.html("Total Time: " + xValue(d) 
+                 + "<br />Total Depth: " + yValue(d) 
+				 + "<br />Dive Group: " + divevalue(d)
+				 + "<br />" + adddecomp(d))
                  .style("left", (d3.event.pageX + 5) + "px")
                  .style("top", (d3.event.pageY - 28) + "px");
                  //Insert all variables
