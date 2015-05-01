@@ -7,9 +7,7 @@ function InitChart() {
   .style('background', 'rgb(252, 224, 164)')
   .style('opacity', 0)
   .style('border', '1px solid rgb(255, 155, 0)')
-  .style('border-radius', '7px')
-  .style('height', '90px')
-  .style('width', '80px');
+  .style('border-radius', '7px');
 
   var vis = d3.select("#visualisation"),
   WIDTH = 700,
