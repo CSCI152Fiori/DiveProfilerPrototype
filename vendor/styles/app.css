@@ -35,3 +35,7 @@ html, body, #main
 .glyphicon {
   top: 0;
 }
+
+#infoPanel{
+  margin-top: 1.5em;
+}
