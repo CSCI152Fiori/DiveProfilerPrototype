@@ -6,11 +6,13 @@ $(document).ready(function () {
 	var data = [[0,0, 0, '0']]; //[time, depth]	//decomp, divegroup
     diveTable = new NauiDiveTable();
 	diver = new Diver(diveTable);
+	totaldives = 0;
 	//safe ascent rate will be 30 feet per minute
 function reset() {	
 	data = [[0,0,0,'0']];
     diveTable = new NauiDiveTable();
 	diver = new Diver(diveTable);
+	totaldives = 0;
 	InitChart();
 	$("#Land").val("");
 	$("#inwater").show();
@@ -21,6 +23,15 @@ function reset() {
 	$("#Time").val("");
 	$("#error-in").text("");
 	$("#error-out").text("");
+	$("#infobox").html("");
+}
+function revertdive() {
+	data.pop();
+	if($("#outwater").is(":visible")){
+		$("#outwater").toggle();
+		$("#inwater").toggle();
+	}
+	
 }
 	
 function adddive() {
@@ -88,7 +99,13 @@ function adddive() {
 		$("#outwater").show();
 		$("#Depth").css("border","");
 		$("#Time").css("border","");
-		$("#error-in").text("");		
+		$("#error-in").text("");
+		totaldives =totaldives + 1;
+		$("#infobox").html("Total Dive Time: " + totime
+						+ "<br />Current Dive Group: " + divegroup
+						+ "<br />Total Dives: " + totaldives);
+
+		
 	}
 	else if(valid){
 		$("#Depth").css("border"," 3px solid red");
@@ -119,4 +136,7 @@ function adddive() {
 	$("#inwater").show();
 	$("#outwater").hide();	
 	InitChart();
+	$("#infobox").html("Total Dive Time: " + time
+					+ "<br />Current Dive Group: " + divegroup);
+	
 	}
